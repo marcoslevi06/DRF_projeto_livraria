@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.contrib.auth.models import User
 
 
 class Categoria(models.Model):
@@ -44,3 +43,28 @@ class Livro(models.Model):
 
     def __str__(self) -> str:
         return f'{self.titulo}/{self.editora}'
+
+
+class Compra(models.Model):
+
+    class StatusCompra(models.IntegerChoices):
+        CARRINHO = 1, 'Carrinho'
+        REALIZADO = 2, 'Realizado'
+        PAGO = 3, 'Pago'
+        ENTREGUE = 4, 'Entregue'
+
+    usuario = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name='compras')
+    status = models.IntegerField(
+        choices=StatusCompra.choices, default=StatusCompra.CARRINHO)
+
+    def __str__(self) -> str:
+        return f'{self.usuario}'
+
+
+class ItensCompra(models.Model):
+    compra = models.ForeignKey(
+        Compra, on_delete=models.CASCADE, related_name='itens')
+    livro = models.ForeignKey(
+        Livro, on_delete=models.PROTECT, related_name='+')
+    quantidade = models.IntegerField()
