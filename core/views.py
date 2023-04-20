@@ -1,5 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 
+
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
@@ -140,3 +142,16 @@ class CategoriaDetail(APIView):
         categoria = get_object_or_404(Categoria.objects.all(), id=id)
         categoria.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CategoriaListGeneric(ListCreateAPIView):
+    '''Lista todas as categorias criadas'''
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+
+class CategoriaDetailGeneric(RetrieveUpdateDestroyAPIView):
+    # Campo de busca será o Id. Com o lookup_field é possível forçar a busca pela str especificada
+    lookup_field = 'id'
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
