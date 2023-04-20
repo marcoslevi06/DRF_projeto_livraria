@@ -118,8 +118,8 @@ class CategoriaDetail(APIView):
 
     def put(self, request, id):
         '''
-        1 criar var. de inst. que recebe o objeto identificado pelo id ou (pk)
-        2 criar var. de inst. que recebe o objeto serializado
+        1 criar var de inst. que recebe o objeto identificado pelo id ou (pk)
+        2 criar var de inst. que recebe o objeto serializado
         3 validar esse objeto e salvá-lo
             4 retornar uma resposta Http com o objeto
         4 se não for válido, retornar uma resposta Http com mensagem de erro
@@ -131,3 +131,12 @@ class CategoriaDetail(APIView):
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        '''
+        1 criar var. de inst. que recebe o objeto
+        2 deletar o objeto criar var. de inst. que recebe o objetoe retornar uma resposta Http
+        '''
+        categoria = get_object_or_404(Categoria.objects.all(), id=id)
+        categoria.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
