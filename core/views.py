@@ -115,3 +115,19 @@ class CategoriaDetail(APIView):
         categoria = get_object_or_404(Categoria.objects.all(), id=id)
         serializer = CategoriaSerializer(categoria)
         return Response(serializer.data)
+
+    def put(self, request, id):
+        '''
+        1 criar var. de inst. que recebe o objeto identificado pelo id ou (pk)
+        2 criar var. de inst. que recebe o objeto serializado
+        3 validar esse objeto e salvá-lo
+            4 retornar uma resposta Http com o objeto
+        4 se não for válido, retornar uma resposta Http com mensagem de erro
+        '''
+        categoria = get_object_or_404(Categoria.objects.all(), id=id)
+        serializer = CategoriaSerializer(categoria, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
