@@ -12,3 +12,15 @@ class EditoraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Editora
         exclude = []
+
+
+class AutorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Autor
+        exclude = []
+
+
+class LivroSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Autor
+        exlcude = []
